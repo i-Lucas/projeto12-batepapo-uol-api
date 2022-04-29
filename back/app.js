@@ -103,12 +103,15 @@ app.get("/messages", async (req, res) => {
     const limit = req.query.limit;
     const header = req.headers.user;
 
+    console.log(limit, header);
+
     try {
         await mongo.connect();
         db = mongo.db(process.env.DATABASE_NAME);
 
         const dbcollection = db.collection("messages");
         const all_messages = await dbcollection.find().toArray();
+        console.log(all_messages);
         const user_messages = all_messages.filter(message => message.to === header || message.from === header);
 
         if (limit === 0) return res.send(user_messages);
