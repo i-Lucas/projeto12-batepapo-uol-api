@@ -15,7 +15,13 @@ function perguntarNome() {
 function registrarParticipante() {
   const dados = { name: nome };
   const requisicao = axios.post("http://localhost:5000/participants", dados);
-  requisicao.then(entrarNaSala).catch(perguntarNome);
+  requisicao.then(response => {
+    console.log("exito ao registrar usuario", response.status, response.statusText);
+    entrarNaSala();
+  }).catch(erro => {
+    console.log("erro ao registrar usuario", erro.response);
+    perguntarNome();
+  });
 }
 
 function entrarNaSala() {
@@ -35,7 +41,12 @@ function carregarMensagens() {
       User: nome
     }
   });
-  requisicao.then(processarMensagens);
+  requisicao.then(response => {
+    console.log("exito ao carregar mensagens", response.status, response.statusText);
+    processarMensagens();
+  }).catch(erro => {
+    console.log("erro ao carregar mensagens", erro.response);
+  })
 }
 
 function carregarParticipantes() {
@@ -44,7 +55,12 @@ function carregarParticipantes() {
       User: nome
     }
   });
-  requisicao.then(processarParticipantes);
+  requisicao.then(response => {
+    console.log("exito ao carregar participantes", response.status, response.statusText);
+    processarParticipantes();
+  }).catch(erro => {
+    console.log("erro ao carregar participantes", erro.response);
+  })
 }
 
 function agendarAtualizacaoDeMensagens() {
@@ -64,7 +80,11 @@ function atualizarStatus() {
     headers: {
       User: nome
     }
-  });
+  }).then(response => {
+    console.log("exito ao atualizar status", response.status, response.statusText);
+  }).catch(erro => {
+    console.log("erro ao atualizar status", erro.response);
+  })
 }
 
 function processarMensagens(resposta) {
