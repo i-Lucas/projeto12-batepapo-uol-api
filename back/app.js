@@ -16,6 +16,8 @@ const mongo = new mongodb.MongoClient(process.env.MONGO_PORT);
 
 app.post("/participants", async (req, res) => {
 
+    console.log("post participants called");
+
     const username = req.body.name;
     if (!username) return res.status(422).send("username cannot be empty");
 
@@ -42,6 +44,8 @@ app.post("/participants", async (req, res) => {
 
 app.get("/participants", async (req, res) => {
 
+    console.log("get participants called");
+
     try {
         await mongo.connect();
         db = mongo.db(process.env.DATABASE_NAME);
@@ -60,6 +64,8 @@ app.get("/participants", async (req, res) => {
 });
 
 app.post("/messages", async (req, res) => {
+
+    console.log("post messages called");
 
     const header = req.headers.user;
     const { to, text, type } = req.body;
@@ -91,7 +97,10 @@ app.post("/messages", async (req, res) => {
 
 app.get("/messages", async (req, res) => {
 
-    const limit = parseInt(req.query.limit);
+    console.log("get messages called");
+
+    // const limit = parseInt(req.query.limit);
+    const limit = req.query.limit;
     const header = req.headers.user;
 
     try {
@@ -117,6 +126,8 @@ app.get("/messages", async (req, res) => {
 
 
 app.post("/status", async (req, res) => {
+
+    console.log("post status called");
 
     const header = req.headers.user;
 
